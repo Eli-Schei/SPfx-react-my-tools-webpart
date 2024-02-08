@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "personal-tools-list-webpart-client-side-solution",
+    "id": "ac784fec-a11b-40c6-8cce-d731b8c20b72",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.18.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "PersonalToolsListWebpart description"
+      },
+      "longDescription": {
+        "default": "PersonalToolsListWebpart description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "personal-tools-list-webpart Feature",
+        "description": "The feature that activates elements of the personal-tools-list-webpart solution.",
+        "id": "6abd958c-2f89-441a-bd27-664546488c1b",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/personal-tools-list-webpart.sppkg"
+  }
+}

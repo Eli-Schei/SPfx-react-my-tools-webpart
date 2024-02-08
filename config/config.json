@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "personal-tools-list-webpart-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/personalToolsListWebpart/PersonalToolsListWebpartWebPart.js",
+          "manifest": "./src/webparts/personalToolsListWebpart/PersonalToolsListWebpartWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "PersonalToolsListWebpartWebPartStrings": "lib/webparts/personalToolsListWebpart/loc/{locale}.js"
+  }
+}
