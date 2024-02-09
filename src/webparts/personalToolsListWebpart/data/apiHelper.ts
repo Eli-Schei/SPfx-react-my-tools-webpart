@@ -26,7 +26,7 @@ export const getUsersTools = async (
 export const getSelectableTools = async (
   context: WebPartContext
 ): Promise<Array<ITool>> => {
-  const sp = spfi().using(SPFx(context));
+  const sp = getSP(context);
   const requestRes = await sp.web.lists.getByTitle("AvailableTools").items();
   const tools = requestRes.map((tool) => {
     return {
@@ -44,7 +44,7 @@ export const updateUsersTools = async (
   currentUserMail: string
 ): Promise<boolean> => {
 
-  const sp = spfi().using(SPFx(context));
+  const sp = getSP(context);
   const requestRes = await sp.web.lists
     .getByTitle("PersonalTools")
     .items();

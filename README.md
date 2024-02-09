@@ -7,6 +7,7 @@ This webpart has the fundamental functionallity - a great starting point to buil
 <video width="600" height="" controls>
   <source src="./assets/video-demo1.mp4" type="video/mp4">
 </video>
+
 * The user can select from this list what link(s) he/she wants to be displayed for them.
 ![](./assets/mytoold.png)
 
