@@ -12,11 +12,20 @@ import { IReadonlyTheme } from '@microsoft/sp-component-base';
 import * as strings from 'PersonalToolsListWebpartWebPartStrings';
 import PersonalToolsListWebpart from './components/PersonalToolsListWebpart';
 import { IPersonalToolsListWebpartProps } from './models/IPersonalToolsListWebpartProps';
+import { IPropertyFieldSite, PropertyFieldSitePicker } from '@pnp/spfx-property-controls/lib/PropertyFieldSitePicker';
+import { PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/spfx-property-controls/lib/PropertyFieldListPicker';
+
+import PnPTelemetry from "@pnp/telemetry-js";
 
 export interface IPersonalToolsListWebpartWebPartProps {
   wpTitle: string;
+  wpSites: IPropertyFieldSite[];
+  wpList: { id: string, title: string, url: string };
   twoColumns: boolean;
 }
+
+const telemetry = PnPTelemetry.getInstance();
+telemetry.optOut();
 
 export default class PersonalToolsListWebpartWebPart extends BaseClientSideWebPart<IPersonalToolsListWebpartWebPartProps> {
 
@@ -28,6 +37,8 @@ export default class PersonalToolsListWebpartWebPart extends BaseClientSideWebPa
       PersonalToolsListWebpart,
       {
         wpTitle: this.properties.wpTitle,
+        wpSites: this.properties.wpSites,
+        wpLists: this.properties.wpList,
         isDarkTheme: this._isDarkTheme,
         context: this.context,
         environmentMessage: this._environmentMessage,
@@ -45,7 +56,6 @@ export default class PersonalToolsListWebpartWebPart extends BaseClientSideWebPa
       this._environmentMessage = message;
     });
   }
-
 
 
   private _getEnvironmentMessage(): Promise<string> {
@@ -115,13 +125,43 @@ export default class PersonalToolsListWebpartWebPart extends BaseClientSideWebPa
                 PropertyPaneTextField('wpTitle', {
                   label: "Title",
                   description:
-                  "If this is not set the title will be shown as 'My tools'",
+                    "If this is not set the title will be shown as 'My tools'",
                 }),
                 PropertyPaneCheckbox('twoColumns', {
                   checked: false,
                   disabled: false,
                   text: "Show links in two columns? (Defaults to 1column if this is not checked)"
-                })
+                }),
+              ]
+            }, {
+              groupName: "List settings",
+              groupFields: [
+                PropertyFieldSitePicker('wpSites', {
+                  label: 'Select site that contains the tools list',
+                  initialSites: this.properties.wpSites?.length > 0 ? this.properties.wpSites : [{ url: this.context.pageContext.web.serverRelativeUrl, title: this.context.pageContext.web.title }],
+                  context: this.context as any,
+                  deferredValidationTime: 500,
+                  multiSelect: false,
+                  onPropertyChange: this.onPropertyPaneFieldChanged,
+                  properties: this.properties,
+                  key: 'wpSites'
+                }),
+                PropertyFieldListPicker('wpLists', {
+                  label: 'Select the tools list',
+                  selectedList: this.properties.wpList,
+                  includeHidden: false,
+                  baseTemplate: 100,
+                  orderBy: PropertyFieldListPickerOrderBy.Title,
+                  includeListTitleAndUrl: true,
+                  disabled: (this.properties.wpSites && this.properties.wpSites.length > 0) ? false : true,
+                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                  properties: this.properties,
+                  context: this.context as any,
+                  multiSelect: false,
+                  webAbsoluteUrl: (this.properties.wpSites && this.properties.wpSites.length > 0) ? this.properties.wpSites[0].url : this.context.pageContext.web.absoluteUrl,
+                  deferredValidationTime: 0,
+                  key: 'listPickerFieldId'
+                }),
               ]
             }
           ]
