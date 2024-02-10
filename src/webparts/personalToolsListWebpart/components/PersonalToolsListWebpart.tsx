@@ -33,33 +33,37 @@ const PersonalToolsListWebpart: React.FC<
   /** === USE EFFECT HOOKS === */
   React.useEffect(() => {
     (async () => {
-      const tmpTools = await getUsersTools(props.context, props.userEmail);
-      if (tmpTools) {
-        setMyTools(tmpTools);
-      } else {
-        setErrorMessage(
-          errorMsgNotFound
-        );
+      if (props.wpLists?.personalToolsList && props.wpSite?.url) {
+        const tmpTools = await getUsersTools(props.context, props.userEmail, { list: props.wpLists.personalToolsList, siteUrl: props.wpSite.url });
+        if (tmpTools) {
+          setMyTools(tmpTools);
+        } else {
+          setErrorMessage(
+            errorMsgNotFound
+          );
+        }
       }
-      const tmpSelectTools = await getSelectableTools(props.context);
-      if (tmpSelectTools) {
-        setSelectableTools(tmpSelectTools);
+      if (props.wpLists?.availableToolsList && props.wpSite?.url) {
+        const tmpSelectTools = await getSelectableTools(props.context);
+        if (tmpSelectTools) {
+          setSelectableTools(tmpSelectTools);
+        }
       }
     })();
-  }, []);
+  }, [props]);
 
   React.useEffect(() => {
     if (myTools.length > 0 && errorMessage) {
       setErrorMessage(undefined);
     }
-    if(myTools.length === 0){
+    if (myTools.length === 0) {
       setErrorMessage(
         errorMsgNotFound
       );
     }
   }, [myTools]);
 
-    /** === FUNCTIONS === */
+  /** === FUNCTIONS === */
   const handleClickOpen = (): void => {
     setOpen(true);
   };
@@ -73,7 +77,8 @@ const PersonalToolsListWebpart: React.FC<
       const updateSucess = await updateUsersTools(
         props.context,
         checked,
-        props.userEmail
+        props.userEmail,
+        { list: props.wpLists?.personalToolsList, siteUrl: props.wpSite?.url }
       );
       if (updateSucess) {
         const tmpTools = await getUsersTools(props.context, props.userEmail);
@@ -95,9 +100,8 @@ const PersonalToolsListWebpart: React.FC<
   /** === TSX === */
   return (
     <section
-      className={`${styles.personalToolsListWebpart} ${
-        props.hasTeamsContext ? styles.teams : ""
-      }`}
+      className={`${styles.personalToolsListWebpart} ${props.hasTeamsContext ? styles.teams : ""
+        }`}
     >
       <Grid style={{ width: "100%", borderBottom: "1px solid #333" }} container>
         <Grid item xs={12} md={8}>
