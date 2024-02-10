@@ -147,7 +147,7 @@ export default class PersonalToolsListWebpartWebPart extends BaseClientSideWebPa
                   key: 'wpSites'
                 }),
                 PropertyFieldListPicker('wpLists.personalToolsList', {
-                  label: "Select the 'Personal tools' tools list",
+                  label: "Select the 'Personal tools' list",
                   selectedList: this.properties.wpLists?.personalToolsList,
                   includeHidden: false,
                   baseTemplate: 100,
@@ -163,7 +163,7 @@ export default class PersonalToolsListWebpartWebPart extends BaseClientSideWebPa
                   key: 'wpLists.personalToolsList'
                 }),
                 PropertyFieldListPicker('wpLists.availableToolsList', {
-                  label: "Select the 'Available tools' tools list",
+                  label: "Select the 'Available tools' list",
                   selectedList: this.properties.wpLists?.availableToolsList,
                   includeHidden: false,
                   baseTemplate: 100,
