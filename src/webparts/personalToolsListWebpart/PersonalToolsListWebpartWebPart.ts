@@ -20,7 +20,7 @@ import PnPTelemetry from "@pnp/telemetry-js";
 export interface IPersonalToolsListWebpartWebPartProps {
   wpTitle: string;
   wpSites: IPropertyFieldSite[];
-  wpList: { id: string, title: string, url: string };
+  wpLists: { personalToolsList: { id: string, title: string, url: string }, availableToolsList: { id: string, title: string, url: string } };
   twoColumns: boolean;
 }
 
@@ -37,8 +37,8 @@ export default class PersonalToolsListWebpartWebPart extends BaseClientSideWebPa
       PersonalToolsListWebpart,
       {
         wpTitle: this.properties.wpTitle,
-        wpSites: this.properties.wpSites,
-        wpLists: this.properties.wpList,
+        wpLists: this.properties.wpLists,
+        wpSite: (this.properties.wpSites?.length > 0) ? this.properties.wpSites[0] : undefined,
         isDarkTheme: this._isDarkTheme,
         context: this.context,
         environmentMessage: this._environmentMessage,
@@ -146,9 +146,9 @@ export default class PersonalToolsListWebpartWebPart extends BaseClientSideWebPa
                   properties: this.properties,
                   key: 'wpSites'
                 }),
-                PropertyFieldListPicker('wpLists', {
-                  label: 'Select the tools list',
-                  selectedList: this.properties.wpList,
+                PropertyFieldListPicker('wpLists.personalToolsList', {
+                  label: "Select the 'Personal tools' tools list",
+                  selectedList: this.properties.wpLists?.personalToolsList,
                   includeHidden: false,
                   baseTemplate: 100,
                   orderBy: PropertyFieldListPickerOrderBy.Title,
@@ -160,7 +160,23 @@ export default class PersonalToolsListWebpartWebPart extends BaseClientSideWebPa
                   multiSelect: false,
                   webAbsoluteUrl: (this.properties.wpSites && this.properties.wpSites.length > 0) ? this.properties.wpSites[0].url : this.context.pageContext.web.absoluteUrl,
                   deferredValidationTime: 0,
-                  key: 'listPickerFieldId'
+                  key: 'wpLists.personalToolsList'
+                }),
+                PropertyFieldListPicker('wpLists.availableToolsList', {
+                  label: "Select the 'Available tools' tools list",
+                  selectedList: this.properties.wpLists?.availableToolsList,
+                  includeHidden: false,
+                  baseTemplate: 100,
+                  orderBy: PropertyFieldListPickerOrderBy.Title,
+                  includeListTitleAndUrl: true,
+                  disabled: (this.properties.wpSites && this.properties.wpSites.length > 0) ? false : true,
+                  onPropertyChange: this.onPropertyPaneFieldChanged.bind(this),
+                  properties: this.properties,
+                  context: this.context as any,
+                  multiSelect: false,
+                  webAbsoluteUrl: (this.properties.wpSites && this.properties.wpSites.length > 0) ? this.properties.wpSites[0].url : this.context.pageContext.web.absoluteUrl,
+                  deferredValidationTime: 0,
+                  key: 'wpLists.availableToolsList'
                 }),
               ]
             }
