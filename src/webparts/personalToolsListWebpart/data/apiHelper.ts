@@ -1,5 +1,4 @@
 import { WebPartContext } from "@microsoft/sp-webpart-base";
-import { SPFx, spfi } from "@pnp/sp";
 import { ITool } from "../models";
 import { getSP } from "./pnpjs-config";
 

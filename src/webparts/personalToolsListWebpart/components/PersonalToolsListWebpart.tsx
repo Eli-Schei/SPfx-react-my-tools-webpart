@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import * as React from "react";
-import styles from "./PersonalToolsListWebpart.module.scss";
+import styles from "../styles/PersonalToolsListWebpart.module.scss";
 import type { IPersonalToolsListWebpartProps, ITool } from "../models";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
